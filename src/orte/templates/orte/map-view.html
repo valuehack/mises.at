@@ -1,0 +1,90 @@
+{% extends "orte/base-view.html" %}
+
+{% block content %}
+{% load static %}
+{% load replace_linebr %}
+
+<div class="map">
+  <div id="map" class="map__map"></div>
+</div>
+<script type="text/javascript">
+
+function initMap() {
+  
+  var MisesAustriaMapStyle = new google.maps.StyledMapType([
+    {
+    }
+  ], {name: 'Wohn- und Wirkungsorte Wiener Denker'});
+  
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 48.0596696, lng: 14.4656239},
+    zoom: 5,
+    mapTypeControlOptions: {
+      mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'misesat_map']
+    }
+  });
+  
+  map.mapTypes.set('misesat_map', MisesAustriaMapStyle);
+  map.setMapTypeId('misesat_map');
+  
+  {% for ort in orte %}
+    {% with ort.text|length as length %}
+      {% with ort.denker.all|length as denker_length %}
+        var url = "{% url 'orte:detail' ort_slug=ort.slug %}";
+        var denkerList = "";
+        {% for denk in ort.denker.all %}
+          {% if forloop.counter0 > 0 %} 
+            denkerList += ", "
+          {% endif %}
+          var denker_url = "{% url 'denker:detail' denker_slug=denk.slug %}";
+          var link = '<a href="' + denker_url + '">{{ denk.name }}</a>';
+          denkerList += link;
+        {% endfor %}
+        
+        var contentString = '<div class="map-info">'+
+        '<a href="'+url+'"> <h2>{{ ort.name }}</h2></a>'+
+        '<a href="'+url+'"> <img src="{{ ort.img }}" alt="."></a>'+
+        '<p>{{ ort.text|safe|truncatewords_html:40 }}</p>'+
+        '<h6>Denker, die hier gelebt und gewirkt haben</h6><p>'+
+        denkerList + 
+        '</p></div>'+
+        '<div class="card-link h-right"><a href="'+url+'">Mehr</div>';
+        
+        
+        //var contentString = join()
+        
+        var marker = new google.maps.Marker({
+          position: {lat: {{ ort.lat }}, lng: {{ ort.lng }}},
+          map: map,
+          title: '{{ ort.name }}'
+        });
+        var infowindow = null;
+        attachInfoWindow(marker, contentString);
+      {% endwith %}
+    {% endwith %}
+  {% endfor %}
+  
+  function attachInfoWindow(marker, info) {
+    
+    marker.addListener('click', function() {
+      
+      if (infowindow) {
+        infowindow.close();
+      }
+      infowindow = new google.maps.InfoWindow({
+        content: info
+      });
+      infowindow.open(map, marker);
+      
+    });
+    
+  }
+}
+
+</script>
+
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChP6VPcxuqcO5r8q7733mF7hzjNg4r9EY&callback=initMap">
+</script>
+
+{% endblock content %}

@@ -1,0 +1,64 @@
+{% extends "literatur/base-view.html" %}
+
+{% block content %}
+{% load static %}
+
+<div id="content">      	
+  <div class="container index-link"><p><a href="{% url 'framework:home' %}">mises.at</a> / Literatur</p></div>
+  <div class="container">
+    <h1>Literatur</h1>
+    {% if author %}
+      <h3><a href="{% url 'denker:detail' denker_slug=author.slug %}">{{ author.name }}</a></h3>
+    {% endif %}
+  </div>
+  
+  <div class="container">
+    <div class="style-space--bottom">
+      <button class="reiter showhide">Nach Autor filtern</button>
+      <div class="hidden row reiter--ctn">
+        {% for i in author_list %}
+          <div class="three columns">
+            {% for denker in i %}
+              <a href="{% url 'literatur:denker' denker_slug=denker.slug %}">{{ denker.name }}</a><br>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>     			
+    </div>
+    <table class="itm-table h-full-width sortable">
+      <thead>
+        <tr>
+          <th class="list_head">Titel</th>
+          <th class="list_head">Jahr</th>
+          <th class="list_head">Autor</th>
+          <th class="list_head">Typ</th>
+          <th class="list_head">Sprache</th>
+          <th class="list_head">Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        {% for lit_item in lit_list %}
+          {% with lit_item.author.slug as denker_url %}
+          <tr>
+            <td>
+              {% if lit_item.quelle %}
+                <a class="list_title" target="_blank" href="{{ lit_item.link }}">{{ lit_item.titel|safe }}</a>
+              {% else %}
+                <div class="list_title">{{ lit_item.titel|safe }}</div>
+              {% endif %}
+            </td>
+            <td data-label="Jahr">{{ lit_item.jahr }}</td>
+            <td data-label="Autor"><a class="itm-table_sec" href="{% url 'denker:detail' denker_slug=denker_url %}">{{ lit_item.author }}</a></td>
+            <td data-label="Typ">{{ lit_item.typ }}</td>
+            <td data-label="Sprache">{{ lit_item.sprache }}</td>
+            <td><a class="itm-table_pri" target="_blank" href="{{ lit_item.link }}">{{ lit_item.quelle }}</a></td>
+          </tr>
+          {% endwith %}
+        {% endfor %}
+      </tbody>
+    </table>  
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,23 @@
+{% load static %}
+<header id="header">
+  <div class="logo">
+    <a href="{% url 'framework:home' %}"><img src="{% static '/framework/images/ma_logo_text.png' %}" alt=""></a>
+  </div>
+  <div class="nav-trigger">
+    <div class="nav-trigger__icon">
+      <a href="#" onclick="showNav();return false;"><img src="{% static '/framework/images/navicon.svg' %}" alt="Menu" title="Menu"></a>
+    </div>
+  </div>
+  <div id="nav">
+    <div class="navi">
+      <ul>
+        <li><a href="{% url 'verlag:list' %}" onclick="showNav();">Verlag</a></li>
+        <li><a href="{% url 'denker:list' %}" onclick="showNav();">Denker</a></li>
+        <li><a href="{% url 'literatur:list' %}" onclick="showNav();">Literatur</a></li>
+        <li><a href="{% url 'orte:map' %}" onclick="showNav();">Orte</a></li>
+        <li><a href="{% url 'projekte:list' %}" onclick="showNav();">Projekte</a></li>
+        <li><a href="{% url 'faq:list' %}" onclick="showNav();">Glossar</a></li>
+      </ul>
+    </div>
+  </div>
+</header>

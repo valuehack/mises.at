@@ -1,0 +1,25 @@
+{% extends "orte/base-view.html" %}
+
+{% block content %}
+{% load static %}
+
+  <div id="content">
+      <div class="container index-link"><p><a href="{% url 'framework:home' %}">mises.at</a> / <a href="{% url 'orte:map' %}">Orte</a> / {{ ort.name }}</p></div>
+      <div class="container">
+        <div class="row">
+          <div class="two-thirds column">
+            <h1>{{ ort.name }}</h1>
+          </div>
+          <div class="one-third column h-white">
+            <img src="{{ ort.img }}" class="img--coat" alt=".">
+          </div>
+        </div>
+      </div>
+      
+      <div class="container text">
+          <h2>Beschreibung</h2>
+          <p>{{ ort.text|safe }}</p>
+      </div>
+  </div>
+      
+{% endblock content %}

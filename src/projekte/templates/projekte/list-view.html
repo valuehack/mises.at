@@ -1,0 +1,51 @@
+{% extends "projekte/base-view.html" %}
+
+{% block content %}
+{% load static %}
+
+<div id="content">
+  
+  <div class="container index-link"><p><a href="{% url 'framework:home' %}">mises.at</a> / Projekte</p></div>
+  <div class="container">
+    <h1>Projekte</h1>
+    <p>Hier finden Sie eine &Uuml;bersicht unserer aktuellen Projekte.</p>
+  </div>
+  
+  <div class="container h-centered style-space--bottom ">
+    <div class="grid">
+      
+      {% for projekt in projekte %}
+      <div class="card projectcard" style="order: {{ projekt.order }};">
+        <div class="card-content">
+          <div class="list-itm h-extra-space__top">
+            <a class="link" href="{% url 'projekte:detail' projekt_slug=projekt.slug %}"><h3 class="titel">{{ projekt.titel }}</h3></a><br>
+            {% if projekt.author %}
+              <a class="link" href="{% url 'denker:detail' denker_slug=projekt.author.slug %}"><h6 class="h-left" style="text-align: left;">{{ projekt.author.name }}</h6></a>
+            {% else %}
+              <h6 class="h-left" style="text-align: left;">{{ projekt.autor }}</h6>
+            {% endif %}
+            <p>{{ projekt.beschreibung|safe|truncatewords_html:40 }}</p>
+          </div>
+          <div class="">
+            
+            <div class="">
+              <progress value="{{ projekt.prozent }}" max="100"></progress>
+              
+              <p class=""><b>{{ projekt.prozent }}%</b> finanziert</p>
+              <br>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <div class="projectcard" style="order: 100"></div>
+      <div class="projectcard" style="order: 100"></div>
+      <div class="projectcard" style="order: 100"></div>
+    </div>
+    <br><br><br><br>
+    <a class="btn-link h-block button-text h-centered" href="mailto:&#105;nf&#111;&#064;&#109;&#105;se&#115;.&#97;&#116;">Kontakt</a>
+  </div>
+</div>
+
+{% endblock content %}

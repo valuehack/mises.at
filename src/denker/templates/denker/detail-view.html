@@ -1,0 +1,46 @@
+{% extends "denker/base-view.html" %}
+
+{% block content %}
+{% load static %}
+
+<div id="content">
+        <div class="container index-link"><p><a href="{% url 'framework:home' %}">mises.at</a> / <a href="{% url 'denker:list' %}">Denker</a> / {{ denker.name }}</p></div>
+        <div class="container">
+          <div class="row style-space--bottom">
+            <div class="two-thirds column">
+              <h1>{{ denker.name }}</h1>
+            </div>
+            <div class="one-third column h-centered">
+              <img src="{% static 'denker/images/'|add:denker.image|add:'.jpg' %}" class="img--portrait" alt="{{ denker.name }}"/>
+    
+            </div>
+          </div>
+          <div class="row">
+            <div class="two-thirds column text">
+              <h2>Leben</h2>
+              <p>{{ denker.bio |safe}}</p>
+            </div>
+            <div class="one-third column">
+              <h5 class="style-bl--red">Werke</h5>
+              <div class="list">
+                  <ul class="list--none">
+                    {% for werk in werke %}
+                    <li>
+                      {% if werk.quelle %}
+        							<a class="" target="_blank" href="{{ werk.link }}">{{ werk.titel|safe }}</a> ({{ werk.jahr }})
+                      {% else %}
+                      <div class="list_title">{{ werk.titel|safe }} ({{ werk.jahr }})</div> 
+                      {% endif %}
+                    </li>
+                    {% endfor %}
+                  </ul>
+              </div>
+              
+              <div class="h-centered h-extra-space__top">
+                <a class="btn-link h-block" href="{% url 'literatur:denker' denker_slug=denker.slug %}">gesamte Liste</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock content %}

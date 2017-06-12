@@ -1,0 +1,53 @@
+{% extends "faq/base-view.html" %}
+
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static '/faq/css/style.css' %}">
+<link rel="stylesheet" href="{% static '/faq/css/reset.css' %}">
+<script src="{% static '/faq/js/modernizr.js' %}"></script> 
+<div id="content">
+  
+  <div class="container index-link"><p><a href="{% url 'framework:home' %}">mises.at</a> / Glossar</p></div>
+  <div class="container">
+    <h1>Glossar</h1>
+    <p>Hier finden Sie eine &Uuml;bersicht ökonomischer Begriffe.</p>
+  </div>
+  
+  <div class="container h-centered style-space--bottom">
+    <section class="cd-faq">
+      <!--ul class="cd-faq-categories">
+        <li><a href="#basics">Basics</a></li>
+        <li><a href="#mobile">Mobile</a></li>
+      </ul-->
+    
+      <div class="cd-faq-items h-centered">
+        <ul id="basics" class="cd-faq-group">
+          <!--li class="cd-faq-title"><h2>Basics</h2></li-->
+          {% for begriff in faq %}
+          {% if begriff.beschreibung %}
+            <!-- <div class="list-itm h-extra-space__top" id="{{ begriff.slug }}">
+              <h6 class="h-left" style="text-align: left;">{{ begriff.begriff }}</h6>
+              <p>{{ begriff.beschreibung|safe}}</p>
+            </div> -->
+              
+      			<li id="{{ begriff.slug }}">
+      				<a class="cd-faq-trigger" href="#0" >{{ begriff.begriff }}</a>
+      				<div id="{{ begriff.slug }}-content" class="cd-faq-content">
+      					{{ begriff.beschreibung|safe }}
+      				</div> 
+      			</li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div> 
+    </section>
+  </div>
+</div>
+
+<script src="{% static '/faq/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static '/faq/js/jquery.mobile.custom.min.js' %}"></script>
+<script src="{% static '/faq/js/main.js' %}"></script> 
+<script src="{% static '/faq/js/elements.js' %}"></script> 
+
+{% endblock content %}

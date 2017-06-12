@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="description" content="Verlag und Kompendium zur &Ouml;stereichischen Schule der &Ouml;konomik">
+  <link rel="shortcut icon" type="image/png" href="{% static '/framework/images/favicon.ico' %}" sizes="32x32">  
+  
+  <!--link rel="apple-touch-icon" sizes="180x180" href="..\apple-touch-icon.png"> TODO: Übertragen
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="..\mstile-144x144.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"-->
+  
+  <link rel="stylesheet" href="{% static '/framework/style/normalize.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300|EB+Garamond" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{% static '/framework/style/style.css' %}">
+  
+  <title>
+    {% block title %}Mises Austria{% endblock title %}
+  </title>
+  
+</head>
+<body>
+  {% include "framework/components/header.html" %}
+  
+  {% block content %}
+  {% endblock content %}
+  
+  {% include "framework/components/footer.html" %}
+  
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="{% static '/framework/js/general.js' %}"></script>
+  <script src="{% static '/framework/js/sorttable.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,137 @@
+{% extends "framework/components/base.html" %}
+
+{% block title %}Home | {{ block.super }}{% endblock title %}
+
+{% block content %}
+{% load static %}
+
+<div id="content">
+  <div class="container">
+    <div class="row">
+      <div class="two-thirds column">
+        <div class="row style-space--bottom">
+          <h1>Willkommen!</h1>
+          <p>{{ infotext.info|safe }}</p>
+        </div>
+        <div>
+          <h3>Neuerscheinungen</h3>
+          <div class="row hiderow">
+            <div class="grid">
+              {% for werk in verlag %}
+                <div class="card verlagcell">
+                  <div id="cover_{{ werk.slug }}" class="card-head-2 card-head__overlay">
+                  <style>
+                  #cover_{{ werk.slug }} {
+                    background-image: url({% static '/verlag/cover/'|add:werk.slug|add:'.jpg' %});
+                    background-position: 50% 20%;
+                    background-size: cover;
+                    z-index: 1;
+                  }
+                  </style>
+                </div>
+                <div class="card-content">
+                  <h5> 
+                    <a class="title" href="{{ werk.link }}">{{ werk.title }}</a>
+                  </h5>
+                  <p class="text-insert text--raleway">
+                    {% for author in werk.author.all %}
+                      <a href="{% url 'denker:detail' denker_slug=author.slug %}">{{ author.name }}</a>
+                    {% endfor %}
+                  </p>
+                  <p>
+                    {{ werk.desc|safe }}
+                  </p>
+                </div>
+                <div class="card-link h-right">
+                  <a href="{{ werk.link }}">Zum Buch</a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="one-third column">
+      {% if daymatch %}
+        <div class="card" id="tagesbezogenes">
+          <div class="card-content">
+            <h3 class="h-centered">{{ heute }}</h3>
+            <p class="card-bottom">
+              {% for match in geboren %}
+                Heute vor {{ match.years }} Jahren ist <a href="{% url 'denker:detail' denker_slug=match.denker.slug %}">{{ match.denker.name }}</a> geboren.<br>
+              {% endfor %}
+              {% for match in gestorben %}
+                Heute vor {{ match.years }} Jahren ist <a href="{% url 'denker:detail' denker_slug=match.denker.slug %}">{{ match.denker.name }}</a> gestorben.<br>
+              {% endfor %}  
+            </p>
+          </div>
+        </div>
+      {% endif %}
+      <h5 class="style-bl--red h-extra-space__bottom h-extra-space__top">Neueste Eintr&auml;ge</h5>
+      <div class="">
+        <div class="">
+          <div class="grid">
+            {% for denk in denker %}
+              <div class="card denkercell_small">
+                <a href="{% url 'denker:detail' denker_slug=denk.slug %}">	
+                  <div class="card-head">
+                    {% if denk.quelle is not "" %}
+                      <img src="{% static 'denker/images/'|add:denk.image|add:'.jpg' %}" alt="{{ denk.name }}">
+                    {% endif %}
+                  </div>
+                </a>
+                <div>
+                  <div class="text--raleway h-centered card-text"> <a href="{% static 'denker/images/'|add:denk.image|add:'.jpg' %}">{{ denk.name }}</a></div>
+                </div>
+              </div>
+            {% endfor %}
+            <div class="denkercell_small"></div>
+            <div class="denkercell_small"></div>
+          </div>
+          <br>
+        </div>
+        <div class="card-link h-right">
+          <a href="{% url 'denker:list' %}">Alle Denker</a>
+        </div>
+        <div class="card">
+          <h2 class="card-content h-centered">Literatur</h2>
+          <div class="container h-extra-space__top list">
+            <ul class="list--none">
+              {% for werk in literatur %}    
+                {% if werk.link is not "" %}
+                  <li><a href="{{ werk.link }}" target="_blank">{{ werk.titel }}</a><br><br><a href="{% url 'denker:detail' denker_slug=werk.author.slug %}"><div class="itm-table_sec h-right">{{ werk.author.name }}</div></a></li>
+                {% else %}
+                  <li>{{ werk.titel }}<br><br><a href="{% url 'denker:detail' denker_slug=wer.author.slug %}"><div class="itm-table_sec h-right">{{ werk.author.name }}</div></a></li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="card-link h-extra-space__top h-right">
+          <a href="{% url 'literatur:list' %}">Gesamte Literatur</a>
+        </div>
+      </div>
+      <div>
+        <h5 class="style-bl--red h-extra-space__bottom h-extra-space__top">Aktuelle Projekte</h5>
+        <div class="card">
+          <div class="card-content">
+            <a class="link" href="{% url 'projekte:detail' projekt_slug=projekt.slug %}"><h3 class="h-centered">{{ projekt.titel }}</h3></a>
+            {% if projekt.author %}
+              <a class="link" href="{% url 'denker:detail' denker_slug=projekt.author.slug %}"><h6 class="h-left" style="text-align: left;">{{ projekt.author.name }}</h6></a>
+            {% else %}
+              <h6 class="h-left" style="text-align: left;">{{ projekt.autor }}</h6>
+            {% endif %}
+            <p>{{ projekt.beschreibung|safe|truncatewords_html:40 }}</p>
+            <div class="">
+              <progress value="{{ projekt.prozent }}" max="100"></progress>
+              <p class=""><b>{{ projekt.prozent }}%</b> finanziert</p><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock content %}

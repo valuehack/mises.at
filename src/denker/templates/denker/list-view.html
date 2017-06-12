@@ -1,0 +1,75 @@
+{% extends "denker/base-view.html" %}
+
+{% block content %}
+{% load static %}
+<div id="content">
+    <div class="container index-link"><p><a href="{% url 'framework:home' %}">mises.at</a> / Denker</p></div>
+    <div class="container">
+      <h1>Denker</h1>
+      <p>Hier finden Sie eine umfassende &Uuml;bersicht der in der Denktradition der &Ouml;sterreichischen Schule stehenden Denker.</p>
+    </div>
+
+    <div class="container">
+      
+      <div class="itm-index">
+        {% for letter in letters %}
+        <div class="dropdown">
+          <button class="dropbtn">
+            {{ letter }}
+          </button>
+          <div class="dropdown-content">
+            {% for denker in denker_list %}
+              {% if denker.firstletter == letter %}
+                <a href="#{{ denker.slug }}">{{ denker.name }}</a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      
+      <ul class="grid gengrid h-centered">
+        {% for i in gen %}
+          <li class="gencell">
+            <a href="#{{ i }}">
+              <div class="card button-card">
+                <img class="card-head button-img" src="{% static 'denker/images/buttons/'|add:i|add:'2.jpg' %}"/>
+              </div>
+              <h6 class="button-title">{{ forloop.counter }}. Generation</h6>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+      
+      <ul class="grid">
+        {% for denker in denker_bybirth %}
+        {% url 'denker:detail' denker_slug=denker.slug as denker_url %}
+        
+          <li class="card denkercell" id="{{ denker.slug }}">
+            <a href="{{ denker_url }}">	
+              <div class="card-head card-head__overlay">
+                <img src="{% static 'denker/images/'|add:denker.image|add:'.jpg' %}" alt="{{ denker.name }}">
+              </div>
+            </a>
+                
+          <div class="card-content">
+            <h6> <a href="{{ denker_url }}">{{ denker.name }}</a></h6>
+            <p>{{ denker.bio|safe|truncatewords_html:40 }}</p>
+          </div>
+                
+          <div class="card-link h-right">
+            <a href="{{ denker_url }}">Zur Person</a>
+          </div>
+        </li>
+      {% endfor %}
+      
+      <li class="card denkercell" style="height:0;"></li>
+      <li class="card denkercell" style="height:0;"></li>
+      <li class="card denkercell" style="height:0;"></li>
+      
+    </ul>
+    
+  </div>
+</div>
+      
+{% endblock content %}

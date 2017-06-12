@@ -1,0 +1,31 @@
+{% extends "verlag/base-view.html" %}
+
+{% block content %}
+{% load static %}
+
+  <div id="content">
+      	<div class="container index-link"><p><a href="{% url 'framework:home' %}">Mises Austria</a> / Verlag</p></div>
+      	<div class="container text">
+      		<h1>Verlagsprogramm</h1>
+      	</div> 
+        {% for werk in werke %}
+      	<div class="container">   		
+      		<div class="row list-row">
+				<div class="one-third column">
+					<div class="list-itm h-white h-centered">
+						<a href="{{ werk.link }}"><img class="list-itm_img--big" src="{% static 'verlag/cover/'|add:werk.slug|add:'.jpg' %}" alt="."></a>
+					</div>
+				</div>
+				<div class="two-thirds column">
+					<div class="list-itm h-extra-space__top">
+						<h5> <a class="title" href="{{ werk.link }}">{{ werk.title|safe }}</a></h5>
+						<p class="text-insert text--raleway">{{ werk.author|safe }}</p>
+						<p>{{ werk.desc|safe }}</p>
+					</div>
+				</div>
+			</div>
+  	</div>   
+    {% endfor %}  	      
+	</div>
+
+{% endblock content %}
