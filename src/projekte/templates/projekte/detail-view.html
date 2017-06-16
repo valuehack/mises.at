@@ -31,16 +31,26 @@
   
   <div class="centered" style="max-width: 30em; padding: 5px;">
     <div class="" style="width: {{ fields }}%; display: block; float: left;">
-      <div class="fields">
-        <input class="centered" type="text" id="firstName" placeholder="First Name">
-        <input class="centered" type="text" id="lastName" placeholder="Last Name">
-        <input class="centered" type="text" id="email" placeholder="Email">
-      </div>
-      <div class="" style="padding: 1em;">
-        <p class="h-centered" id="vorteile">
-          {{ stufen.0.vorteile }}
-        </p>
-      </div>
+      
+      
+      <form>
+        <div class="fields">
+            <input class="centered" type="text" name="firstName" placeholder="First Name">
+            <input class="centered" type="text" name="lastName" placeholder="Last Name">
+            <input class="centered" type="text" name="email" placeholder="Email">
+            
+        </div>
+        <div class="" style="padding: 1em;">
+          <p class="h-centered" id="vorteile">
+            {{ stufen.0.vorteile }}
+          </p>
+        </div>
+      </form>
+      <form method="POST">{% csrf_token %}
+        {{ spendenform }}{{ stufenform }}
+        <input type="submit">
+      </form>
+    
     </div>
     {% if stufen %}
     <div class="card" style="width: 33%; display: block; float: right; padding-top: 1em; padding-bottom: 1em;">

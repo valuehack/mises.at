@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Projekte, Stufen
 from framework import views
 from .utils import getPercent
+from .forms import SpendenModelForm  #, StufenForm
 
 
 def list_view(request):
@@ -16,17 +17,38 @@ def list_view(request):
 
 def detail_view(request, projekt_slug):
     projekt = get_object_or_404(Projekte, slug=projekt_slug)
-    stufen = list(Stufen.objects.filter(projekt=projekt))
+    stufen = Stufen.objects.filter(projekt=projekt)
+    stufenList = list(stufen)
     projekt.beschreibung = views.addLinks(projekt.beschreibung)
     projekt = getPercent(projekt)
-    if not stufen:
+    if not stufenList:
         fields = 100
     else:
         fields = 66
 
+    spendenForm = SpendenModelForm(get_object_or_404(Projekte, slug=projekt_slug), request.POST or None)
+    if spendenForm.is_valid():
+        spendenForm.save()
+        print("SAVING")
+    else:
+        print('NOT SAVING')
+        print(spendenForm.is_valid())
+        print(spendenForm.errors)
+        print(spendenForm.fields['Stufe'].betrag)
+        
+    if spendenForm.has_error:
+            print(spendenForm.errors.as_text())
+    
+            
+    # for stufe in stufenList
+            
+    # stufenForm = StufenForm(request.POST, projekt)  # instance=stufen)
+    
     context = {
-        "stufen": stufen,
+        "stufen": stufenList,
         "projekt": projekt,
-        "fields": fields
+        "fields": fields,
+        "spendenform": spendenForm,
+        # "stufenform": stufenForm
     }
     return render(request, 'projekte/detail-view.html', context)

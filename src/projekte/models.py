@@ -31,7 +31,18 @@ def pre_save_receiver(sender, instance, *args, **kwargs):
 
 pre_save.connect(pre_save_receiver, sender=Projekte)
 
+
 class Stufen(models.Model):
     betrag = models.IntegerField()
     vorteile = models.TextField()
     projekt = models.ForeignKey('projekte.Projekte', on_delete=models.PROTECT)
+
+
+class Spenden(models.Model):
+    Vorname = models.CharField(max_length=100)
+    Nachname = models.CharField(max_length=100)
+    Email = models.EmailField()
+    # Projekt = models.ForeignKey('Projekte', on_delete=models.PROTECT)
+    Stufe = models.ForeignKey('Stufen', on_delete=models.PROTECT, null=True)
+    Validiert = models.BooleanField(default="False")
+    
