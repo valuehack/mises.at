@@ -26,24 +26,26 @@ def detail_view(request, projekt_slug):
     else:
         fields = 66
 
-    spendenForm = SpendenModelForm(get_object_or_404(Projekte, slug=projekt_slug), request.POST or None)
-    if spendenForm.is_valid():
-        spendenForm.save()
-        print("SAVING")
+    if request.method == 'POST':
+        spendenForm = SpendenModelForm(get_object_or_404(Projekte, slug=projekt_slug), request.POST)
+        if spendenForm.is_valid():
+            spendenForm.save()
+            print("SAVING")
+        else:
+            print('NOT SAVING')
+            print(spendenForm.is_valid())
+            print(spendenForm.errors)
+
+        if spendenForm.has_error:
+                print(spendenForm.errors.as_text())
     else:
-        print('NOT SAVING')
-        print(spendenForm.is_valid())
-        print(spendenForm.errors)
-        print(spendenForm.fields['Stufe'].betrag)
-        
-    if spendenForm.has_error:
-            print(spendenForm.errors.as_text())
-    
-            
+        spendenForm = SpendenModelForm(get_object_or_404(Projekte, slug=projekt_slug), None)
+
+
     # for stufe in stufenList
-            
+
     # stufenForm = StufenForm(request.POST, projekt)  # instance=stufen)
-    
+
     context = {
         "stufen": stufenList,
         "projekt": projekt,
