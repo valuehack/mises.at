@@ -1,0 +1,73 @@
+{% extends "projekte/base-view.html" %}
+
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static '/projekte/css/box.css' %}">
+
+<div id="content">
+  <div class="container index-link"><p><a href="{% url 'framework:home' %}">mises.at</a> / <a href="{% url 'projekte:list' %}">Projekte</a> / {{ stufe.projekt.titel }}</p></div>
+  <div class="container">
+    <div class="row style-space--bottom">
+      <h1 style="text-align: center;">Vielen Dank für Ihre Unterstützung!</h1>
+    </div>
+  </div>
+
+<div class="container grid" style="justify-content: center;">
+  <button class="btn-donate btn-link button-text" onclick="window.location.href='mailto:&#105;nf&#111;&#064;&#109;&#105;se&#115;.&#97;&#116;'">Kontakt</button>
+
+  <button id="show" class="btn-btc btn-link h-block button-text" style="background-image: url({% static '/projekte/images/bitcoin.svg' %})">
+    <a style="padding-left:2.5em;">Bitcoin-Adresse</a>
+
+  </button>
+
+<button id="show2" class="btn-btc btn-link h-block button-text">
+  <a>Bank-Überweisung</a>
+</button>
+
+
+<form name="_xclick" action="https://www.paypal.com/at/cgi-bin/webscr" method="post">
+  <input type="hidden" name="cmd" value="_xclick">
+  <input type="hidden" name="business" value="info@scholarium.at">
+  <input type="hidden" name="item_name" value="Spende">
+  <input type="hidden" name="currency_code" value="EUR">
+  <input id="pp_amount" type="hidden" name="amount" value="{{ stufe.betrag }}">
+  <button type="submit" name="submit" class="btn-btc btn-link h-block button-text" style="background-image: url({% static '/projekte/images/PayPal.svg' %}); background-position: center; width: 14em;">
+</form>
+
+</div>
+
+
+
+
+<dialog id="btcdialog">
+  <div class="card-content">
+    <img src="{% static '/projekte/images/wallet.png' %}" style="width:100%;"/>
+    <p>16wWd9Znzv5oN3ag7A47sezdLbUCm32Tt4</p>
+    <p class="h-centered">Vielen Dank für Ihre Unterstützung!</p>
+  </div>
+  <div class="card-link h-right">
+    <a id="close" style="cursor: pointer;">Schließen</a>
+  </div>
+</dialog>
+<dialog id="bankdialog">
+  <div class="card-content">
+    <p class="h-centered"><b>Erste Bank</b></p>
+
+    <p><b>Kontonummer:</b> 28824799900<br>
+    <b>Bankleitzahl:</b> 20111<br>
+    <b>IBAN:</b> AT332011128824799900<br>
+    <b>BIC:</b> GIBAATWW<br>
+    <b>Betreff:</b> Spende {{ stufe.projekt.slug }}</p>
+
+    <p class="h-centered">Vielen Dank für Ihre Unterstützung!</p>
+  </div>
+  <div class="card-link h-right">
+    <a id="close2" style="cursor: pointer;">Schließen</a>
+  </div>
+</dialog>
+</div>
+
+<script src="{% static '/projekte/js/box.js' %}"></script>
+
+{% endblock content %}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
+from django.utils.timezone import now
 
 
 class Projekte(models.Model):
@@ -36,13 +37,19 @@ class Stufen(models.Model):
     betrag = models.IntegerField()
     vorteile = models.TextField()
     projekt = models.ForeignKey('projekte.Projekte', on_delete=models.PROTECT)
+    
+    def __str__(self):
+        return str(self.betrag) + "eur @ " + str(self.projekt.titel)
 
 
 class Spenden(models.Model):
     Vorname = models.CharField(max_length=100)
     Nachname = models.CharField(max_length=100)
     Email = models.EmailField()
-    # Projekt = models.ForeignKey('Projekte', on_delete=models.PROTECT)
-    Stufe = models.ForeignKey('Stufen', on_delete=models.PROTECT, null=True)
+    Stufe = models.ForeignKey('Stufen', on_delete=models.PROTECT)
+    Datum = models.DateTimeField(default=now)
     Validiert = models.BooleanField(default="False")
+    
+    def __str__(self):
+        return str(self.Vorname) + " " + str(self.Nachname) + " | " + str(self.Stufe)
     

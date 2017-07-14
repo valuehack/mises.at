@@ -26,114 +26,40 @@
   </div>
 
   <div class="h-centered" style="width: 100%">
-    <h3>MAKE A DONATION</h3>
+    <h3>Dieses Projekt unterstützen</h3>
   </div>
   
-  <div class="centered" style="max-width: 30em; padding: 5px;">
-    <div class="" style="width: {{ fields }}%; display: block; float: left;">
-      
-      
-      <form>
-        <div class="fields">
-            <input class="centered" type="text" name="firstName" placeholder="First Name">
-            <input class="centered" type="text" name="lastName" placeholder="Last Name">
-            <input class="centered" type="text" name="email" placeholder="Email">
-            
-        </div>
-        <div class="" style="padding: 1em;">
-          <p class="h-centered" id="vorteile">
-            {{ stufen.0.vorteile }}
-          </p>
-        </div>
-      </form>
+  <div style="display: block; width: 100%; overflow: hidden;">
+  <div class="centered" style="max-width: 20em; padding: 5px;">
+    <div class="" style="width: 100%; display: block; float: left;">
+    
+
       <form method="POST">{% csrf_token %}
-        {{ spendenform }}{{ stufenform }}
-        <input type="submit">
+        {{ spendenform.non_field_errors }}
+        <div class="fields">
+          {{ spendenform.Vorname.errors }}
+          {{ spendenform.Vorname }}
+          {{ spendenform.Nachname.errors }}
+          {{ spendenform.Nachname }}
+          {{ spendenform.Email.errors }}
+          {{ spendenform.Email }}
+          {{ spendenform.Stufe.errors }}
+          <div id="stufenselect">{{ spendenform.Stufe }}</div>
+          <input type="submit" class="centered h-extra-space__top" value="Abschicken">
+        </div>
       </form>
     
     </div>
-    {% if stufen %}
-    <div class="card" style="width: 33%; display: block; float: right; padding-top: 1em; padding-bottom: 1em;">
-      <form id="spende" action="#">
-        {% for stufe in stufen %}
-        <label class="btn btn-link text-donation" style="width: 80%; display:block; height: 2em;">
-          <input type="radio" value="{{ forloop.counter }}" name="betrag" style="vertical-align: middle; display: block;"/>
-            {{ stufe.betrag }}€
-
-        </label><br>
-        {% endfor %}
-      </form>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-      {% for stufe in stufen %}
-      <script>
-        $('#spende input').on('change', function() {
-          if($('input[name=betrag]:checked', '#spende').val() == {{ forloop.counter }}){
-            $("#pp_amount").val({{ stufe.betrag }});
-            document.getElementById("vorteile").innerHTML = "{{ stufe.vorteile }}";
-          }
-        });
-
-      </script>
-      {% endfor %}
-    </div>
-    {% endif %}
+    
   </div>
-
-  <div class="container grid" style="justify-content: center;">
-    <button class="btn-donate btn-link button-text" onclick="window.location.href='mailto:&#105;nf&#111;&#064;&#109;&#105;se&#115;.&#97;&#116;'">Kontakt</button>
-
-    <button id="show" class="btn-btc btn-link h-block button-text" style="background-image: url({% static '/projekte/images/bitcoin.svg' %})">
-      <a style="padding-left:2.5em;">Bitcoin-Adresse</a>
-
-    </button>
-
-  <button id="show2" class="btn-btc btn-link h-block button-text">
-    <a>Bank-Überweisung</a>
-  </button>
-
-
-  <form name="_xclick" action="https://www.paypal.com/at/cgi-bin/webscr" method="post">
-    <input type="hidden" name="cmd" value="_xclick">
-    <input type="hidden" name="business" value="info@scholarium.at">
-    <input type="hidden" name="item_name" value="Spende">
-    <input type="hidden" name="currency_code" value="EUR">
-    <input id="pp_amount" type="hidden" name="amount" value="500">
-    <button type="submit" name="submit" class="btn-btc btn-link h-block button-text" style="background-image: url({% static '/projekte/images/PayPal.svg' %}); background-position: center; width: 14em;">
-  </form>
-
 </div>
-
-
-
-
-  <dialog id="btcdialog">
-    <div class="card-content">
-      <img src="{% static '/projekte/images/wallet.png' %}" style="width:100%;"/>
-      <p>16wWd9Znzv5oN3ag7A47sezdLbUCm32Tt4</p>
-      <p class="h-centered">Vielen Dank für Ihre Unterstützung!</p>
-    </div>
-    <div class="card-link h-right">
-      <a id="close" style="cursor: pointer;">Schließen</a>
-    </div>
-  </dialog>
-  <dialog id="bankdialog">
-    <div class="card-content">
-      <p class="h-centered"><b>Erste Bank</b></p>
-
-      <p><b>Kontonummer:</b> 28824799900<br>
-      <b>Bankleitzahl:</b> 20111<br>
-      <b>IBAN:</b> AT332011128824799900<br>
-      <b>BIC:</b> GIBAATWW<br>
-      <b>Betreff:</b> Spende {{ projekt.slug }}</p>
-
-      <p class="h-centered">Vielen Dank für Ihre Unterstützung!</p>
-    </div>
-    <div class="card-link h-right">
-      <a id="close2" style="cursor: pointer;">Schließen</a>
-    </div>
-  </dialog>
+  <div class="" style="margin-right: 10%; margin-left: 10%;">
+    <h3 style="text-align: center;" class="h-extra-space__top h-extra-space__bottom">Unterstützungsstufen</h3>
+      {% for stufe in stufen %}
+        <div style="display: block; width: {{ fields }}%; float: left;"><div><h4 style="text-align: center;">{{ stufe.betrag }}€</h4></div><div class="vorteil">{{ stufe.vorteile }}</div></div>
+      {% endfor %}
+  </div>
+<div class="container grid" style="justify-content: center;"></div>
 </div>
-
-<script src="{% static '/projekte/js/box.js' %}"></script>
 
 {% endblock content %}
