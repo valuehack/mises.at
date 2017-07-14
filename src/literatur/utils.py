@@ -9,7 +9,7 @@ def createLink(qs):
     for i in qs:
         if i.quelle == "PDF":
             # i.link = os.path.join(settings.STATIC_ROOT, 'literatur/' + i.typ + '/', i.slug) + ".pdf"
-            i.link = static(i.typ + "/" + i.slug + ".pdf")
+            i.link = static("literatur/"+i.typ + "/" + i.slug + ".pdf")
     return qs
 
 
