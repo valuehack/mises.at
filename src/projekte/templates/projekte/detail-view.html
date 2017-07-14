@@ -24,7 +24,7 @@
     <p class=""><b>{{ projekt.prozent }}%</b> finanziert</p>
     <br>
   </div>
-
+{% if stufen %}
   <div class="h-centered" style="width: 100%">
     <h3>Dieses Projekt unterstützen</h3>
   </div>
@@ -60,6 +60,8 @@
       {% endfor %}
   </div>
 <div class="container grid" style="justify-content: center;"></div>
+{% endif %}
 </div>
+
 
 {% endblock content %}
