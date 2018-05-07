@@ -3,7 +3,7 @@
 *.csv
 /venv/
 /env/
-src/static/
+/static/
 /media-root/
 **/static/**/images/
 **/static/**/fonts/
@@ -14,6 +14,6 @@ src/static/
 local_*
 db.json
 *.sql
-src/scholarium@piokg.de/
-src/misesat/settings/production.py
-src/misesat/settings/local.py
+/scholarium@piokg.de/
+/misesat/settings/production.py
+/misesat/settings/local.py
