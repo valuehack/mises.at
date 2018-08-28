@@ -15,6 +15,10 @@ class Projekte(models.Model):
     ziel = models.IntegerField()
     author = models.ForeignKey('denker.Denker', on_delete=models.PROTECT, null=True, blank=True)
 
+    @property
+    def fehlend(self):
+        return self.ziel - self.spenden
+
     def __str__(self):
         return (str(self.id) + " | " + str(self.author) + ": " + str(self.titel) + " (" + str(self.ziel) + " )")
 
@@ -36,7 +40,7 @@ pre_save.connect(pre_save_receiver, sender=Projekte)
 class Stufen(models.Model):
     betrag = models.IntegerField()
     vorteile = models.TextField()
-    projekt = models.ForeignKey('projekte.Projekte', on_delete=models.PROTECT)
+    projekt = models.ForeignKey('projekte.Projekte', on_delete=models.CASCADE)
     
     def __str__(self):
         return str(self.betrag) + "eur @ " + str(self.projekt.titel)

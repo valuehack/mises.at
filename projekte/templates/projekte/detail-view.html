@@ -21,13 +21,25 @@
     <br>
     <progress value="{{ projekt.prozent }}" max="100"></progress>
 
-    <p class=""><b>{{ projekt.prozent }}%</b> finanziert</p>
+    <p class=""><b>{{ projekt.prozent }}%</b> finanziert{% if projekt.ziel > projekt.spenden %} - Noch {{ projekt.fehlend }}€ bis zum Finanzierungsziel{% endif %}</p>
     <br>
   </div>
-{% if stufen %}
   <div class="h-centered" style="width: 100%">
     <h3>Dieses Projekt unterstützen</h3>
   </div>
+
+  <div class="container grid" style="justify-content: center;">
+    <button class="btn-donate btn-link button-text" onclick="window.location.href='mailto:&#105;nf&#111;&#064;&#109;&#105;se&#115;.&#97;&#116;'">Kontakt</button>
+    <form name="_xclick" action="https://www.paypal.com/at/cgi-bin/webscr" method="post">
+      <input type="hidden" name="cmd" value="_xclick">
+      <input type="hidden" name="business" value="info@scholarium.at">
+      <input type="hidden" name="item_name" value="Spende">
+      <input type="hidden" name="currency_code" value="EUR">
+      <input id="pp_amount" type="hidden" name="amount" value="{{ stufe.betrag }}">
+      <button type="submit" name="submit" class="btn-btc btn-link h-block button-text" style="background-image: url({% static '/projekte/images/PayPal.svg' %}); background-position: center; width: 14em;">
+    </form>
+  </div>
+  {% if stufen %}
   
   <div style="display: block; width: 100%; overflow: hidden;">
   <div class="centered" style="max-width: 20em; padding: 5px;">
@@ -59,7 +71,6 @@
         <div style="display: block; width: {{ fields }}%; float: left;"><div><h4 style="text-align: center;">{{ stufe.betrag }}€</h4></div><div class="vorteil">{{ stufe.vorteile }}</div></div>
       {% endfor %}
   </div>
-<div class="container grid" style="justify-content: center;"></div>
 {% endif %}
 </div>
 
