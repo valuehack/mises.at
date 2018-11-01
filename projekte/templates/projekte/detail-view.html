@@ -36,6 +36,8 @@
       <input type="hidden" name="item_name" value="Spende_{{ projekt.slug }}">
       <input type="hidden" name="currency_code" value="EUR">
       <input id="pp_amount" type="hidden" name="amount" value="{{ stufe.betrag }}">
+      <input type="hidden" name="shipping" value="0">
+      <input type="hidden" name="no_shipping" value="1">
       <button type="submit" name="submit" class="btn-btc btn-link h-block button-text" style="background-image: url({% static '/projekte/images/PayPal.svg' %}); background-position: center; width: 14em;">
     </form>
   </div>
