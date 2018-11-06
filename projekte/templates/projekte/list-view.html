@@ -31,7 +31,7 @@
             <div class="">
               <progress value="{{ projekt.prozent }}" max="100"></progress>
               
-              <p class=""><b>{{ projekt.prozent }}%</b> finanziert{% if projekt.ziel > projekt.spenden %} - Noch {{ projekt.fehlend }}€ bis zum Finanzierungsziel{% endif %}</p>
+              <p class=""><b>{{ projekt.prozent|floatformat:1 }}%</b> finanziert{% if projekt.ziel > projekt.spenden %} - Noch {{ projekt.fehlend }}€ bis zum Finanzierungsziel{% endif %}</p>
               <br>
               
             </div>
